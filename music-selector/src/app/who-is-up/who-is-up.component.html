@@ -1,5 +1,5 @@
-<div fxLayout="column" class="content-container" fxLayoutAlign="space-around none">
-  <div fxFlex="70" fxFill>
+<div fxLayout="column" class="content-container media-container" style="position: relative;" fxLayoutAlign="space-around none">
+  <div fxFlex="70">
     <div class="spotlight-card-container">
       <mat-card class="spotlight-card">
         <mat-card-header>
@@ -88,12 +88,22 @@
       </mat-card>
     </div>
   </div>
-  <div fxFlex="30" fxFill>
+  <div fxFlex="30">
+    <!-- <div 
+      fxLayout="row wrap" fxLayoutGap="32px" fxLayoutAlign="flex-start">
+      <ng-container *ngFor="let item of simpleSongList">
+        <mat-card fxFlex="0 1 calc(16.6% - 32px)">{{ item.title }}</mat-card>
+      </ng-container>
+    </div> -->
     <div class="card-carrousel">
-      <mat-grid-list cols="5" rowHeight="6:1">
+      <mat-grid-list [cols]="breakpoint" rowHeight="5:1" (window:resize)="onResize($event)">
         <ng-container>
           <mat-grid-tile *ngFor="let item of simpleSongList">
-            <mat-card class="mt-2 card" (click)="changeActiveCard($event)" onmouseover="" style="cursor: pointer;">
+              <button class="card-carrousel-button" mat-raised-button [color]="(item.title === todayAsString) ? 'primary' : 'basic'" (click)="changeActiveCard($event)">
+                {{ item.title }}
+              </button>
+
+            <!-- <mat-card class="mt-2 card" (click)="changeActiveCard($event)" onmouseover="" style="cursor: pointer;">
               <div *ngIf="item.title === todayAsString; else elseBlock">
                 <mat-card-content [ngStyle]="{ color: 'red' }">
                   {{ item.title }}
@@ -102,7 +112,7 @@
               <ng-template #elseBlock>
                 <mat-card-content> {{ item.title }} </mat-card-content>
               </ng-template>
-            </mat-card>
+            </mat-card> -->
           </mat-grid-tile>
           <mat-grid-tile [colspan]="5">
             <mat-paginator [length]="list.length" [pageSize]="pageSize" [hidePageSize]="true"

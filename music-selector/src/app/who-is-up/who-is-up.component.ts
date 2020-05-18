@@ -36,6 +36,7 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
 
   startDate = '4/20/2020';
   daysToGenerate = 1826;
+  breakpoint = 5;
 
   constructor(private songsService: SongsService) {
     this.siteHelper = new SiteHelper(songsService);
@@ -48,12 +49,12 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
     const dateIterator = new Date(this.startDate);
     for (let idx = 0; idx < this.daysToGenerate; ++idx) {
       // console.log(this.siteHelper.getFormattedDateString(startDateAsDate));
-      if ( dateIterator.getDay() > 0 && dateIterator.getDay() < 6 ) {
-      this.list.push({
-        title: this.siteHelper.getFormattedDateString(dateIterator)
-      });
+      if (dateIterator.getDay() > 0 && dateIterator.getDay() < 6) {
+        this.list.push({
+          title: this.siteHelper.getFormattedDateString(dateIterator),
+        });
       }
-      dateIterator.setDate(dateIterator.getDate() + 1 );
+      dateIterator.setDate(dateIterator.getDate() + 1);
     }
 
     // - get offset from start of time
@@ -75,7 +76,15 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
     this.simpleSongList = this.list.slice(0, this.pageSize);
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    if (window.innerWidth <= 400) {
+      this.breakpoint = 1;
+      this.pageSize = 1;
+    } else {
+      this.breakpoint = 5;
+      this.pageSize = 25;
+    }
+  }
 
   ngAfterViewInit() {
     // console.log(document.getElementById('songLink'));
@@ -88,7 +97,7 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
     // console.log(`${this.today.getDate()}`);
     // console.log(`${this.today.getFullYear()}`);
     console.log('Setting Active Song Date: ' + date);
-    this.siteHelper.getSongAtDate(date).then( result => {
+    this.siteHelper.getSongAtDate(date).then((result) => {
       console.log(result);
       this.activeSong = result;
       (document.getElementById(
@@ -101,9 +110,11 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
     if (new Date(date).getDay() === 1) {
       this.editGenre = true;
     } else {
-      this.siteHelper.getSongAtDate(this.siteHelper.getNearestMonday(date)).then( result => {
-        this.activeSong.genre = result.genre;
-      });
+      this.siteHelper
+        .getSongAtDate(this.siteHelper.getNearestMonday(date))
+        .then((result) => {
+          this.activeSong.genre = result.genre;
+        });
     }
   }
 
@@ -126,13 +137,15 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
   }
 
   onEdittingGenreSave(e) {
-    console.log('in genre save: ', (document.getElementById(
-      'newGenre'
-    ) as HTMLInputElement).value, this.activeSong);
+    console.log(
+      'in genre save: ',
+      (document.getElementById('newGenre') as HTMLInputElement).value,
+      this.activeSong
+    );
     this.edittingGenre = false;
 
     const newData = JSON.parse(JSON.stringify(this.activeSong));
-    console.log('Sending song to database:', newData );
+    console.log('Sending song to database:', newData);
     newData.genre = (document.getElementById(
       'newGenre'
     ) as HTMLInputElement).value;
@@ -150,13 +163,15 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
   }
 
   onEdittingSongSave(e) {
-    console.log('in song save: ', (document.getElementById(
-      'newSong'
-    ) as HTMLInputElement).value, this.activeSong);
+    console.log(
+      'in song save: ',
+      (document.getElementById('newSong') as HTMLInputElement).value,
+      this.activeSong
+    );
     this.edittingSong = false;
 
     const newData = JSON.parse(JSON.stringify(this.activeSong));
-    console.log('Sending song to database:', newData );
+    console.log('Sending song to database:', newData);
     newData.song = (document.getElementById(
       'newSong'
     ) as HTMLInputElement).value;
@@ -167,5 +182,15 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
   onEdittingSongCancel(e) {
     console.log('in song cancel');
     this.edittingSong = false;
+  }
+
+  onResize(event) {
+    if (event.target.innerWidth <= 400) {
+      this.breakpoint = 1;
+      this.pageSize = 1;
+    } else {
+      this.breakpoint = 5;
+      this.pageSize = 25;
+    }
   }
 }
