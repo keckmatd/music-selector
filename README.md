@@ -30,4 +30,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 # Build Prod
 
 ng build --prod --base-href "https://keckmatd.github.io/music-selector/"
-ngh
+ng deploy
