@@ -80,9 +80,6 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     // console.log(document.getElementById('songLink'));
     this.setActiveSong(this.todayAsString);
-    (document.getElementById(
-      'songLink'
-    ) as HTMLLinkElement).href = this.activeSong.song;
   }
 
   setActiveSong(date: string) {
@@ -94,6 +91,9 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
     this.siteHelper.getSongAtDate(date).then( result => {
       console.log(result);
       this.activeSong = result;
+      (document.getElementById(
+        'songLink'
+      ) as HTMLLinkElement).href = this.activeSong.song;
     });
 
     this.editGenre = false;
