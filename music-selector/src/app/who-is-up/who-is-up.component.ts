@@ -127,9 +127,9 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
 
   changeActiveCard(e) {
     // console.log(e);
-    console.log('change event, active card: ', e.toElement.outerText);
+    console.log('change event, active card: ', e.target.innerText);
 
-    this.setActiveSong(e.toElement.outerText);
+    this.setActiveSong(e.target.innerText);
   }
 
   onEditGenre(e) {
