@@ -1,0 +1,26 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "geometria-light", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #606c71;
+  height: 100%;
+  min-width: 350px;
+}
+
+.content-container {
+  height: 100%;
+  min-height: 100%;
+}
+
+.mat-app-background {
+  height: 100%;
+}
+
+
+// .spotlight-card-header-image {
+//   background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+//   background-size: cover;
+// }

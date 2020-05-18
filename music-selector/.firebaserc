@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "music-selector-e263c": {
+      "hosting": {
+        "music-selector": [
+          "music-selector-e263c"
+        ]
+      }
+    }
+  }
+}

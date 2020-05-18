@@ -1,0 +1,116 @@
+<div fxLayout="column" class="content-container" fxLayoutAlign="space-around none">
+  <div fxFlex="70" fxFill>
+    <div class="spotlight-card-container">
+      <mat-card class="spotlight-card">
+        <mat-card-header>
+          <div mat-card-avatar class="spotlight-card-header-image">
+            <mat-icon class="spotlight-icon" aria-hidden="false" aria-label="Example library_music icon">library_music
+            </mat-icon>
+          </div>
+
+          <mat-card-title>{{ activeSong.id }}</mat-card-title>
+          <mat-card-subtitle>
+            <mat-list-item>
+              Genre: {{ activeSong.genre }}
+              <div *ngIf="editGenre" style="display: inline-block;">
+                <button mat-button color="primary" (click)="onEditGenre($event)">
+                  <mat-icon class="rating-icon" aria-hidden="false" aria-label="Example edit icon">edit</mat-icon>
+                </button>
+              </div>
+            </mat-list-item>
+
+            <div *ngIf="edittingGenre">
+              <mat-list-item>
+                <form class="card-content-full">
+                  <mat-form-field class="card-content-full" appearance="fill">
+                    <input id="newGenre" matInput placeholder="Ex, Rock-n-Roll" value="{{ genrePlaceholder }}" />
+                  </mat-form-field>
+                </form>
+              </mat-list-item>
+              <mat-list-item>
+                <span class="button-spacer"></span><button mat-raised-button color="primary"
+                  (click)="onEdittingGenreSave($event)">
+                  SAVE
+                </button>
+                <button mat-raised-button color="warn" (click)="onEdittingGenreCancel($event)">
+                  CANCEL
+                </button>
+              </mat-list-item>
+            </div>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <mat-list class="card-content-full">
+            <mat-list-item> Who's Up: {{ activeSong.person }} </mat-list-item>
+            <mat-list-item>
+              Song Picked:&nbsp;
+              <a id="songLink" href="#" target="_blank">
+                {{ activeSong.song }} </a><button mat-button color="primary" (click)="onEditSong($event)">
+                <mat-icon class="rating-icon" aria-hidden="false" aria-label="Example edit icon"
+                  style="display: inline-block;">edit</mat-icon>
+              </button>
+            </mat-list-item>
+            <mat-list-item>
+
+            </mat-list-item>
+            <mat-list-item>
+              <!-- <div *ngIf="edittingSong"> -->
+              <form class="card-content-full">
+                <mat-form-field class="card-content-full" appearance="fill">
+                  <input id="newSong" matInput placeholder="https://www.youtube.com/watch?v=Df-fm-MSMqI"
+                    value="{{ songPlaceholder }}" />
+                </mat-form-field>
+              </form>
+            </mat-list-item>
+            <mat-list-item>
+              <span class="button-spacer"></span>
+              <button mat-raised-button color="primary" (click)="onEdittingSongSave($event)">
+                SAVE
+              </button>
+            </mat-list-item>
+            <!-- </div> -->
+          </mat-list>
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <div class="rating-content">
+          <mat-card-actions>
+            Coming Soon? (Maybe!)
+            <button mat-button color="accent">
+              <mat-icon class="rating-icon" aria-hidden="false" aria-label="Example thumb_up icon">thumb_up</mat-icon>
+            </button>
+            <button mat-button color="warn">
+              <mat-icon class="rating-icon" aria-hidden="false" aria-label="Example thumb_down icon">thumb_down
+              </mat-icon>
+            </button>
+          </mat-card-actions>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+  <div fxFlex="30" fxFill>
+    <div class="card-carrousel">
+      <mat-grid-list cols="5" rowHeight="6:1" gutterSize="10px">
+        <ng-container>
+          <mat-grid-tile *ngFor="let item of simpleSongList">
+            <mat-card class="mt-2 card" (click)="changeActiveCard($event)" onmouseover="" style="cursor: pointer;">
+              <div *ngIf="item.title === todayAsString; else elseBlock">
+                <mat-card-content [ngStyle]="{ color: 'red' }">
+                  {{ item.title }}
+                </mat-card-content>
+              </div>
+              <ng-template #elseBlock>
+                <mat-card-content> {{ item.title }} </mat-card-content>
+              </ng-template>
+            </mat-card>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="5">
+            <mat-paginator [length]="list.length" [pageSize]="pageSize" [hidePageSize]="true"
+              (page)="onPageChange($event)">
+            </mat-paginator>
+          </mat-grid-tile>
+        </ng-container>
+      </mat-grid-list>
+    </div>
+  </div>
+</div>

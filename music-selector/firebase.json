@@ -1,0 +1,19 @@
+{
+  "hosting": [
+    {
+      "target": "music-selector",
+      "public": "dist/music-selector",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}

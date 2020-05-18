@@ -1,0 +1,134 @@
+
+.spotlight-card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  // min-width: 60%;
+  // min-height: 40%;
+}
+
+
+.spotlight-card-container .mat-card-header {
+  font-size: 1.25vw;
+  width: 100%;
+  // padding: 10px 0 10px 0;
+  margin: 0;
+}
+
+.spotlight-card-container .mat-card-content {
+  font-size: 1.25vw;
+  // padding: 10px 0 10px 0;
+  margin: 0;
+}
+
+.spotlight-card-container .mat-card {
+  min-width: 80%;
+  padding: 10px 30px 10px 30px;
+  margin: 0px;  
+  font-size: 1vw;
+}
+
+.spotlight-card-container .mat-card-title {
+  font-size: 1vw;
+}
+
+.spotlight-card-container .mat-card-subtitle {
+  font-size: 1vw;
+}
+
+#songLink {
+  text-decoration: none;
+  color: white;
+}
+
+.spotlight-card-container .mat-card-actions {
+  margin: 0px;
+}
+
+.spotlight-card-container .mat-card-actions button {
+  border: 1px;
+}
+
+.spotlight-card-container .mat-card-content {
+  padding: 10px 0 10px 0;
+  margin: 0;
+  font-size: 1.25vw;
+}
+
+.spotlight-card-container .mat-list-item {
+  font-size: 1.25vw;
+}
+
+.spotlight-card {
+  max-width: 60%;
+}
+
+.spotlight-icon {
+  font-size: 3rem;
+}
+
+.rating-content {
+  text-align: center;
+  padding: 0px;
+}
+
+.rating-icon {
+  font-size: 1.5rem;
+}
+
+.card-carrousel {
+  position: absolute;
+  bottom: 3%;
+  min-width: 100%;
+}
+
+
+.card-carrousel .mat-card {
+  margin: 8px;
+  min-width: 100%;
+}
+
+.card-carrousel .mat-paginator {
+  margin: 8px;
+  min-width: 100%;
+}
+
+.card-carrousel .mat-card-header {
+  font-size: 1.25vw;
+  width: 100%;
+  text-align: center;
+  // padding: 10px 0 10px 0;
+  margin: 0;
+}
+
+.card-carrousel .mat-card-content {
+  font-size: 1.25vw;
+  text-align: center;
+  // padding: 10px 0 10px 0;
+  margin: 0;
+}
+
+.card-content-full {
+  width: 100%;
+}
+
+.button-spacer {
+  flex: 1 1 auto;
+}
+
+.mat-raised-button {
+  padding-left: 10px;
+}
+
+::ng-deep .mat-list-item {
+  width:100% !important;
+  font-size: 1vw;
+  margin: 0px;
+}
+
+::ng-deep .mat-form-field-wrapper{
+  width:100% !important;
+  font-size: 1vw;
+  margin: 0px;
+}
