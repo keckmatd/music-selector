@@ -123,13 +123,17 @@ $mq-retina: "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)";
   text-overflow: ellipsis;
 }
 
+::ng-deep .mat-badge-content {
+  right: 15px;
+}
+
 @media #{$mq-xlarge} {
 }
 
 @media #{$mq-xxlarge} {
 }
 
-@media screen and (max-width: 959px) {
+@media screen and (max-width: 768px) {
   .media-container {
     // font-size: 1vw !important;
 
@@ -139,5 +143,12 @@ $mq-retina: "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)";
       // padding: 10px 0 10px 0;
       margin: 0;
     }
+  }
+
+  .card-carrousel-button {
+    margin: 8px;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: .5rem;
   }
 }

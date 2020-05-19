@@ -40,9 +40,8 @@ export class SiteHelper {
     console.log('current song list from DB', this.songList);
   }
 
-  // TODO: Externalize somewhere else
   isEmptyOrSpaces(str) {
-    return str === null || str.match(/^ *$/) !== null;
+    return (!str || /^\s*$/.test(str));
   }
 
   // LoadSongList() {

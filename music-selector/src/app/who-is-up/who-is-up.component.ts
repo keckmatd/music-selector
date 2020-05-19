@@ -70,20 +70,22 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
     const Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 
     // To display the final no. of days (result)
-    this.startIndex = Difference_In_Days - this.pageSize;
+    this.startIndex = Math.trunc(Difference_In_Days / this.pageSize) - 1;
 
     // - set the pagination to the current date to start with
-    this.simpleSongList = this.list.slice(0, this.pageSize);
+    this.onPageChange({ pageIndex: this.startIndex, pageSize: this.pageSize });
+
+    // this.simpleSongList = this.list.slice(this.startIndex, this.pageSize);
   }
 
   ngOnInit(): void {
-    if (window.innerWidth <= 400) {
-      this.breakpoint = 1;
-      this.pageSize = 1;
-    } else {
-      this.breakpoint = 5;
-      this.pageSize = 25;
-    }
+    // if (window.innerWidth <= 400) {
+    //   this.breakpoint = 1;
+    //   this.pageSize = 1;
+    // } else {
+    //   this.breakpoint = 5;
+    //   this.pageSize = 25;
+    // }
   }
 
   ngAfterViewInit() {
@@ -103,6 +105,17 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
       (document.getElementById(
         'songLink'
       ) as HTMLLinkElement).href = this.activeSong.song;
+
+      this.activeSong.thumbsUp = this.siteHelper.isEmptyOrSpaces(
+        this.activeSong.thumbsUp
+      )
+        ? '0'
+        : this.activeSong.thumbsUp;
+      this.activeSong.thumbsDowm = this.siteHelper.isEmptyOrSpaces(
+        this.activeSong.thumbsDowm
+      )
+        ? '0'
+        : this.activeSong.thumbsDowm;
     });
 
     this.editGenre = false;
@@ -119,6 +132,7 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
   }
 
   onPageChange(e) {
+    console.log('changing page: ', e);
     this.simpleSongList = this.list.slice(
       e.pageIndex * e.pageSize,
       (e.pageIndex + 1) * e.pageSize
@@ -185,12 +199,34 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
   }
 
   onResize(event) {
-    if (event.target.innerWidth <= 400) {
-      this.breakpoint = 1;
-      this.pageSize = 1;
-    } else {
-      this.breakpoint = 5;
-      this.pageSize = 25;
-    }
+    // if (event.target.innerWidth <= 400) {
+    //   this.breakpoint = 1;
+    //   this.pageSize = 1;
+    // } else {
+    //   this.breakpoint = 5;
+    //   this.pageSize = 25;
+    // }
+  }
+
+  onThumbsUp(event) {
+    console.log('In Thumbs Up Event');
+
+    const newData = JSON.parse(JSON.stringify(this.activeSong));
+    console.log('Sending song to database:', newData);
+    newData.thumbsUp = +newData.thumbsUp + 1;
+    // newData.thumbsUp = 0; // reset
+    this.siteHelper.updateSongAtDate(newData);
+    this.activeSong = newData;
+  }
+
+  onThumbsDown(event) {
+    console.log('In Thumbs Down Event');
+
+    const newData = JSON.parse(JSON.stringify(this.activeSong));
+    console.log('Sending song to database:', newData);
+    newData.thumbsDowm = +newData.thumbsDowm + 1;
+    // newData.thumbsDowm = 0; // reset
+    this.siteHelper.updateSongAtDate(newData);
+    this.activeSong = newData;
   }
 }
