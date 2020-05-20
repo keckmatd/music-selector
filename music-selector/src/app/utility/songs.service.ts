@@ -3,77 +3,87 @@ import { AngularFirestore } from '@angular/fire/firestore';
 
 import { AngularFireModule } from '@angular/fire';
 import { Song } from '../song.model';
+import { environment } from '../../environments/environment';
+import { NGXLogger } from 'ngx-logger';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SongsService {
-  constructor(private firestore: AngularFirestore) { }
+
+  private collection = 'songs';
+  constructor(private firestore: AngularFirestore, private logger: NGXLogger) {
+    if (environment.useTestDB) {
+      this.collection = 'songsTest';
+    }
+  }
 
   createSongEntry(data) {
+    this.logger.trace('DB => create song: ', data);
     return new Promise<any>((resolve, reject) => {
       this.firestore
-        .collection('songs')
+        .collection(this.collection)
         .doc(data.id)
         .set(data)
         .then(
           (res) => {
-            console.log('added song: ', data);
+            this.logger.debug(res);
+            this.logger.debug('added song: ', data);
           },
-          (err) => reject(err)
+          (err) => this.logger.error(err)
         );
     });
   }
 
   async updateSongEntry(data) {
-    console.log('DB => update song: ', data);
-    await this.firestore.collection('songs').doc(data.id)
+    this.logger.trace('DB => update song: ', data);
+    await this.firestore.collection(this.collection).doc(data.id)
       .set(data, { merge: true })
       .then(
         (res) => {
-          console.log(res);
-          console.log('updated song: ', data);
+          this.logger.debug(res);
+          this.logger.debug('updated song: ', data);
         },
-        (err) => console.log(err)
+        (err) => this.logger.error(err)
       );
   }
 
   getSongEntries() {
-    console.log('DB => get all songs');
-    return this.firestore.collection('songs').snapshotChanges();
+    this.logger.trace('DB => get all songs');
+    return this.firestore.collection(this.collection).snapshotChanges();
   }
 
   async getSongAtDate(date: string) {
-    console.log('DB => get song on date: ', date);
+    this.logger.trace('DB => get song on date: ', date);
     let result = null;
-    await this.firestore.collection('songs').doc(date).ref.get().then((doc) => {
+    await this.firestore.collection(this.collection).doc(date).ref.get().then((doc) => {
       if (doc.exists) {
-        console.log('Document data:', doc.data());
+        this.logger.debug('Document data:', doc.data());
         result = doc.data();
       } else {
-        console.log('No such document on date: ', date);
+        this.logger.warn('No such document on date: ', date);
       }
     }).catch((error) => {
-      console.log('Error getting document:', error);
+      this.logger.error('Error getting document:', error);
     });
 
     return result;
   }
 
   getFullSongEntries() {
-    return this.firestore.collection('songs').get();
+    return this.firestore.collection(this.collection).get();
   }
 
   deleteSongEntry(data) {
     return this.firestore
-      .collection('songs')
+      .collection(this.collection)
       .doc(data.id)
       .delete()
       .then(
         (res) => {
-          console.log('deleted song: ', data);
+          this.logger.trace('deleted song: ', data);
         },
-        (err) => console.log(err)
+        (err) => this.logger.error(err)
       );
   }
 }

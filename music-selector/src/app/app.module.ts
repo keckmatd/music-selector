@@ -58,6 +58,8 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from '../environments/environment';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
+import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -104,11 +106,13 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatToolbarModule,
     MatTooltipModule,
     FormsModule,
+    HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
     FlexLayoutModule,
     ReactiveFormsModule,
     MatFormFieldModule,
+    LoggerModule.forRoot({level: environment.logLevel}),
   ],
   providers: [],
   bootstrap: [AppComponent]

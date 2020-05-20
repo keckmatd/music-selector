@@ -3,6 +3,7 @@ import { SongsService } from '../utility/songs.service';
 import { SiteHelper } from '../utility/SiteHelper';
 
 import { Song } from '../song.model';
+import { NGXLogger } from 'ngx-logger';
 
 @Component({
   selector: 'app-who-is-up',
@@ -38,8 +39,9 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
   daysToGenerate = 1826;
   breakpoint = 5;
 
-  constructor(private songsService: SongsService) {
-    this.siteHelper = new SiteHelper(songsService);
+  constructor(private songsService: SongsService, private logger: NGXLogger) {
+    this.logger.trace('in WhoIsUpComponent constructor');
+    this.siteHelper = new SiteHelper(songsService, logger);
     this.todayAsString = this.siteHelper.getFormattedDateString(this.today);
     this.activeSong = new Song();
     // this.setActiveSong(this.todayAsString);
@@ -48,7 +50,7 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
 
     const dateIterator = new Date(this.startDate);
     for (let idx = 0; idx < this.daysToGenerate; ++idx) {
-      // console.log(this.siteHelper.getFormattedDateString(startDateAsDate));
+      this.logger.trace('adding entry to paginator ', idx);
       if (dateIterator.getDay() > 0 && dateIterator.getDay() < 6) {
         this.list.push({
           title: this.siteHelper.getFormattedDateString(dateIterator),
@@ -58,10 +60,10 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
     }
 
     // - get offset from start of time
-    console.log(this.list);
+    this.logger.debug(this.list);
     const start = new Date(this.list[0]['title']);
     const end = new Date(this.siteHelper.getFormattedDateString(this.today));
-    console.log('after date pulls');
+    this.logger.trace('after date pulls');
 
     // To calculate the time difference of two dates
     const Difference_In_Time = end.getTime() - start.getTime();
@@ -79,6 +81,7 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.logger.trace('in ngOnInit');
     // if (window.innerWidth <= 400) {
     //   this.breakpoint = 1;
     //   this.pageSize = 1;
@@ -86,21 +89,20 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
     //   this.breakpoint = 5;
     //   this.pageSize = 25;
     // }
-  }
 
-  ngAfterViewInit() {
-    // console.log(document.getElementById('songLink'));
     this.setActiveSong(this.todayAsString);
   }
 
+  ngAfterViewInit() {
+    this.logger.trace('in ngAfterViewInit');
+    this.logger.trace('current song link: ', document.getElementById('songLink'));
+  }
+
   setActiveSong(date: string) {
-    // console.log(this.today);
-    // console.log(`${this.today.getMonth()}`);
-    // console.log(`${this.today.getDate()}`);
-    // console.log(`${this.today.getFullYear()}`);
-    console.log('Setting Active Song Date: ' + date);
+    this.logger.trace('in setActiveSong ', date);
+
     this.siteHelper.getSongAtDate(date).then((result) => {
-      console.log(result);
+      this.logger.debug(result);
       this.activeSong = result;
       (document.getElementById(
         'songLink'
@@ -132,7 +134,7 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
   }
 
   onPageChange(e) {
-    console.log('changing page: ', e);
+    this.logger.trace('changing page: ', e);
     this.simpleSongList = this.list.slice(
       e.pageIndex * e.pageSize,
       (e.pageIndex + 1) * e.pageSize
@@ -140,26 +142,25 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
   }
 
   changeActiveCard(e) {
-    // console.log(e);
-    console.log('change event, active card: ', e.target.innerText);
+    this.logger.trace('changing active card ', e);
 
     this.setActiveSong(e.target.innerText);
   }
 
   onEditGenre(e) {
+    this.logger.trace('in edit genre ', e);
     this.edittingGenre = true;
   }
 
   onEdittingGenreSave(e) {
-    console.log(
-      'in genre save: ',
+    this.logger.trace(
+      'in onEdittingGenreSave: ',
       (document.getElementById('newGenre') as HTMLInputElement).value,
       this.activeSong
     );
     this.edittingGenre = false;
 
     const newData = JSON.parse(JSON.stringify(this.activeSong));
-    console.log('Sending song to database:', newData);
     newData.genre = (document.getElementById(
       'newGenre'
     ) as HTMLInputElement).value;
@@ -168,16 +169,17 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
   }
 
   onEdittingGenreCancel(e) {
-    console.log('in genre cancel');
+    this.logger.trace('in onEdittingGenreCancel', e);
     this.edittingGenre = false;
   }
 
   onEditSong(e) {
+    this.logger.trace('in onEditSong', e);
     this.edittingSong = true;
   }
 
   onEdittingSongSave(e) {
-    console.log(
+    this.logger.trace(
       'in song save: ',
       (document.getElementById('newSong') as HTMLInputElement).value,
       this.activeSong
@@ -185,7 +187,6 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
     this.edittingSong = false;
 
     const newData = JSON.parse(JSON.stringify(this.activeSong));
-    console.log('Sending song to database:', newData);
     newData.song = (document.getElementById(
       'newSong'
     ) as HTMLInputElement).value;
@@ -194,11 +195,12 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
   }
 
   onEdittingSongCancel(e) {
-    console.log('in song cancel');
+    this.logger.trace('in onEdittingSongCancel', e);
     this.edittingSong = false;
   }
 
   onResize(event) {
+    this.logger.trace('in onResize', event);
     // if (event.target.innerWidth <= 400) {
     //   this.breakpoint = 1;
     //   this.pageSize = 1;
@@ -209,10 +211,9 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
   }
 
   onThumbsUp(event) {
-    console.log('In Thumbs Up Event');
+    this.logger.trace('In Thumbs Up Event ', event);
 
     const newData = JSON.parse(JSON.stringify(this.activeSong));
-    console.log('Sending song to database:', newData);
     newData.thumbsUp = +newData.thumbsUp + 1;
     // newData.thumbsUp = 0; // reset
     this.siteHelper.updateSongAtDate(newData);
@@ -220,10 +221,9 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
   }
 
   onThumbsDown(event) {
-    console.log('In Thumbs Down Event');
+    this.logger.trace('In Thumbs Down Event ', event);
 
     const newData = JSON.parse(JSON.stringify(this.activeSong));
-    console.log('Sending song to database:', newData);
     newData.thumbsDowm = +newData.thumbsDowm + 1;
     // newData.thumbsDowm = 0; // reset
     this.siteHelper.updateSongAtDate(newData);

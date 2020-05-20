@@ -1,6 +1,7 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
+import { NgxLoggerLevel } from 'ngx-logger';
 
 export const environment = {
   production: false,
@@ -14,7 +15,9 @@ export const environment = {
     appId: '1:880706785517:web:72dc91ec3e8f24d6a8bce4',
     measurementId: 'G-K788C4HVZY'
   },
-  useLocalDB: false
+  useLocalDB: false,
+  useTestDB: true,
+  logLevel: NgxLoggerLevel.DEBUG
 };
 
 /*

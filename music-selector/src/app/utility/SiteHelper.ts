@@ -10,6 +10,7 @@ import {
 import { SongsService } from '../utility/songs.service';
 import { Song } from '../song.model';
 import { environment } from '../../environments/environment';
+import { NGXLogger } from 'ngx-logger';
 
 /* don't blow away this class if updating */
 export class SiteHelper {
@@ -28,7 +29,7 @@ export class SiteHelper {
 
   // markCompleted = data => this.service.updateSongEntry(data);
 
-  constructor(private songsService: SongsService) {
+  constructor(private songsService: SongsService, private logger: NGXLogger) {
     this.service = songsService;
     if (environment.useLocalDB) {
       this.localDb = this.LoadJSON('/assets/music-selections.json');
@@ -37,36 +38,24 @@ export class SiteHelper {
     // hope you know what you're doing if you uncomment this
     // this.resetDB();
 
-    console.log('current song list from DB', this.songList);
+    logger.debug('current song list from DB', this.songList);
   }
 
   isEmptyOrSpaces(str) {
     return (!str || /^\s*$/.test(str));
   }
 
-  // LoadSongList() {
-  //   const rawCollection = this.service.getFullSongEntries();
-  //   rawCollection.forEach( (element) => {
-  //     console.log(element.docs.map( doc => doc.data()));
-  //     element.docs.map( doc => {
-  //       doc.data().forEach( song => {
-  //         this.songs.push(song as Song);
-  //       });
-  //     });
-  //   });
-  // }
-
   LoadJSON(url: string): Song[] {
     const request = new XMLHttpRequest();
     request.open('GET', url, false);
     request.send(null);
     const jsonObj = JSON.parse(request.responseText);
-    console.log('loading site json');
-    console.log(jsonObj);
+    this.logger.debug('loading site json');
+    this.logger.debug(jsonObj);
 
     const songs = [];
     jsonObj.forEach((element) => {
-      // console.log(Song);
+      this.logger.trace(Song);
       songs.push(element);
     });
 
@@ -77,42 +66,41 @@ export class SiteHelper {
     const songs = this.LoadJSON('/assets/music-selections.json');
 
     songs.forEach((element: Song) => {
-      console.log('processing song: ', element);
-      if (element.id === '5/18/2020') {
+      this.logger.debug('processing song: ', element);
         this.service.deleteSongEntry(element);
         this.service.createSongEntry(element);
-      }
     });
   }
 
   async getSongAtDate(date: string) {
-    console.log('retrieving song at date: ', date);
+    this.logger.trace('retrieving song at date: ', date);
     let returnVal: Song;
     if (environment.useLocalDB) {
       returnVal = this.localDb.filter(
         (element: Song) => element.id === date
       )[0];
-      console.log(returnVal);
+      this.logger.debug(returnVal);
       return returnVal;
     } else {
       await this.songsService.getSongAtDate(date).then((result) => {
         returnVal = result;
+        this.logger.debug('Song retrieved: ', returnVal);
       });
     }
-
-    console.log('Song retrieved: ', returnVal);
     return returnVal;
   }
 
   updateSongAtDate(song: Song) {
-    console.log('updating song: ', song);
+    this.logger.trace('updating song: ', song);
     if (environment.useLocalDB) {
       const updateItem = this.localDb.find((item) => item.id === song.id);
       const index = this.localDb.indexOf(updateItem);
 
+      this.logger.debug('Song update: ', song);
       this.localDb[index] = song;
     } else {
       this.songsService.updateSongEntry(song).then((value) => {
+        this.logger.debug('Song update: ', value);
         return value;
       });
     }
@@ -125,7 +113,7 @@ export class SiteHelper {
   getNearestMonday(date: string): string {
     const prevMonday = new Date(date);
     prevMonday.setDate(prevMonday.getDate() - ((prevMonday.getDay() + 6) % 7));
-    console.log(prevMonday);
+    this.logger.debug(prevMonday);
     return this.getFormattedDateString(new Date(prevMonday));
   }
 }
