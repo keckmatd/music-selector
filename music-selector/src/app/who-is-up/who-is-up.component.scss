@@ -6,93 +6,93 @@ $bp-xlarge: 120em; // 1920px
 $bp-xxlarge: 160em; // 2560px
 
 // Media Queries
-$mq-small: "(min-width: #{$bp-small})";
-$mq-medium: "(min-width: #{$bp-medium})";
-$mq-large: "(min-width: #{$bp-large})";
-$mq-xlarge: "(min-width: #{$bp-xlarge})";
-$mq-xxlarge: "(min-width: #{$bp-xxlarge})";
-$mq-retina: "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)";
+$mq-small: '(min-width: #{$bp-small})';
+$mq-medium: '(min-width: #{$bp-medium})';
+$mq-large: '(min-width: #{$bp-large})';
+$mq-xlarge: '(min-width: #{$bp-xlarge})';
+$mq-xxlarge: '(min-width: #{$bp-xxlarge})';
+$mq-retina: '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)';
 
 .spotlight-card-container {
+  align-items: center;
   display: flex;
   justify-content: center;
-  align-items: center;
   padding: 30px;
+
+  .mat-card-actions {
+    margin: 0;
+
+    button {
+      border: 1px;
+    }
+  }
+
+  .mat-card {
+    margin: 0;
+    min-width: 30%;
+    padding: 10px 30px;
+    width: 80%;
+  }
+
+  .mat-card-content {
+    margin: 0;
+    padding: 10px 0;
+  }
+
+  .mat-card-header {
+    margin: 0;
+    width: 100%;
+  }
 }
 
-.spotlight-card-container .mat-card-header {
-  width: 100%;
-  margin: 0;
-}
-
-.spotlight-card-container .mat-card-content {
-  margin: 0;
-}
-
-.spotlight-card-container .mat-card {
-  width: 80%;
-  min-width: 30%;
-  padding: 10px 30px 10px 30px;
-  margin: 0px;
-}
 
 #songLink {
+  color: #fff;
   text-decoration: none;
-  color: white;
 }
 
-.spotlight-card-container .mat-card-actions {
-  margin: 0px;
-}
-
-.spotlight-card-container .mat-card-actions button {
-  border: 1px;
-}
-
-.spotlight-card-container .mat-card-content {
-  padding: 10px 0 10px 0;
-  margin: 0;
-}
 
 .spotlight-card {
   max-width: 60%;
 }
 
 .rating-content {
+  padding: 0;
   text-align: center;
-  padding: 0px;
 }
 
 .card-carrousel {
-  position: absolute;
   bottom: 0;
   min-width: 100%;
+  position: absolute;
+
+  .mat-card-content {
+    margin: 0;
+    text-align: center;
+  }
+
+  .mat-card-header {
+    margin: 0;
+    text-align: center;
+    width: 100%;
+  }
+
+  .mat-paginator {
+    margin: 8px;
+    min-width: 100%;
+  }
 }
 
-.card-carrousel .mat-paginator {
-  margin: 8px;
-  min-width: 100%;
-}
-
-.card-carrousel .mat-card-header {
-  width: 100%;
-  text-align: center;
-  margin: 0;
-}
 
 .ng-star-inserted {
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
 }
 
-.card-carrousel .mat-card-content {
-  text-align: center;
-  margin: 0;
-}
 .card-carrousel-button {
   margin: 8px;
-  min-width: 100%;
   min-height: 100%;
+  min-width: 100%;
 }
 
 .card-content-full {
@@ -108,47 +108,43 @@ $mq-retina: "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)";
 }
 
 ::ng-deep .mat-list-item {
+  margin: 0;
   width: 100% !important;
-  margin: 0px;
 }
 
 ::ng-deep .mat-form-field-wrapper {
+  margin: 0;
   width: 100% !important;
-  margin: 0px;
 }
 
 ::ng-deep .mat-list .mat-list-item {
   overflow: hidden;
-  white-space: nowrap;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 ::ng-deep .mat-badge-content {
   right: 15px;
 }
 
-@media #{$mq-xlarge} {
-}
+// @media #{$mq-xlarge} {
+// }
 
-@media #{$mq-xxlarge} {
-}
+// @media #{$mq-xxlarge} {
+// }
 
 @media screen and (max-width: 768px) {
   .media-container {
-    // font-size: 1vw !important;
-
     .card-carrousel > button {
-      // font-size: .5rem;
-      text-align: center;
-      // padding: 10px 0 10px 0;
       margin: 0;
+      text-align: center;
     }
   }
 
   .card-carrousel-button {
-    margin: 8px;
-    min-width: 100%;
-    min-height: 100%;
     font-size: .5rem;
+    margin: 8px;
+    min-height: 100%;
+    min-width: 100%;
   }
 }

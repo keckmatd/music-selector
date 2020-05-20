@@ -67,8 +67,8 @@ export class SiteHelper {
 
     songs.forEach((element: Song) => {
       this.logger.debug('processing song: ', element);
-        this.service.deleteSongEntry(element);
-        this.service.createSongEntry(element);
+      this.service.deleteSongEntry(element);
+      this.service.createSongEntry(element);
     });
   }
 
