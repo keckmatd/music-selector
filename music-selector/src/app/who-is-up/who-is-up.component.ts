@@ -66,18 +66,18 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
 
     // - get offset from start of time
     this.logger.debug(this.list);
-    const start = new Date(this.list[0]['title']);
+    const start = new Date(this.list[0].title);
     const end = new Date(this.siteHelper.getFormattedDateString(this.today));
     this.logger.trace('after date pulls');
 
     // To calculate the time difference of two dates
-    const Difference_In_Time = end.getTime() - start.getTime();
+    const diffInTime = end.getTime() - start.getTime();
 
     // To calculate the no. of days between two dates
-    const Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+    const diffInDays = diffInTime / (1000 * 3600 * 24);
 
     // To display the final no. of days (result)
-    this.startIndex = Math.trunc(Difference_In_Days / this.pageSize) - 1;
+    this.startIndex = Math.trunc(diffInDays / this.pageSize) - 1;
 
     // - set the pagination to the current date to start with
     this.onPageChange({ pageIndex: this.startIndex, pageSize: this.pageSize });
@@ -276,7 +276,7 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
 
   onResetVotes(event) {
     this.logger.trace('In reset ', event);
-    
+
     let cookieString = this.activeSong.id + '_' + 'DownVoted';
     this.cookieService.set(cookieString, '0');
     cookieString = this.activeSong.id + '_' + 'UpVoted';
