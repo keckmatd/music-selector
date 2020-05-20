@@ -215,7 +215,7 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
 
     const newData = JSON.parse(JSON.stringify(this.activeSong));
     newData.thumbsUp = +newData.thumbsUp + 1;
-    // newData.thumbsUp = 0; // reset
+
     this.siteHelper.updateSongAtDate(newData);
     this.activeSong = newData;
   }
@@ -225,7 +225,17 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
 
     const newData = JSON.parse(JSON.stringify(this.activeSong));
     newData.thumbsDowm = +newData.thumbsDowm + 1;
-    // newData.thumbsDowm = 0; // reset
+
+    this.siteHelper.updateSongAtDate(newData);
+    this.activeSong = newData;
+  }
+
+  onResetVotes(event) {
+    this.logger.trace('In reset ', event);
+
+    const newData = JSON.parse(JSON.stringify(this.activeSong));
+    newData.thumbsUp = 0; // reset
+    newData.thumbsDowm = 0; // reset
     this.siteHelper.updateSongAtDate(newData);
     this.activeSong = newData;
   }

@@ -84,6 +84,9 @@
               <mat-icon class="rating-icon" color="warn" aria-hidden="false" aria-label="Example thumb_down icon" matBadge="{{activeSong.thumbsDowm}}" matBadgePosition="before above">thumb_down 
               </mat-icon>
             </button>
+            <button mat-raised-button color="warn" (click)="onResetVotes($event)">
+              RESET
+            </button>
           </mat-card-actions>
         </div>
       </mat-card>
