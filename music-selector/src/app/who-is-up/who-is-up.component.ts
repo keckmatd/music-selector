@@ -179,19 +179,19 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
   }
 
   onEdittingSongSave(e) {
+    const newSong = (document.getElementById('newSong') as HTMLInputElement);
     this.logger.trace(
       'in song save: ',
-      (document.getElementById('newSong') as HTMLInputElement).value,
+      newSong.value,
       this.activeSong
     );
     this.edittingSong = false;
 
     const newData = JSON.parse(JSON.stringify(this.activeSong));
-    newData.song = (document.getElementById(
-      'newSong'
-    ) as HTMLInputElement).value;
+    newData.song = newSong.value;
     this.siteHelper.updateSongAtDate(newData);
     this.activeSong = newData;
+    newSong.value = '';
   }
 
   onEdittingSongCancel(e) {
