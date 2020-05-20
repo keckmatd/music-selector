@@ -4,6 +4,7 @@ import { SiteHelper } from '../utility/SiteHelper';
 
 import { Song } from '../song.model';
 import { NGXLogger } from 'ngx-logger';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-who-is-up',
@@ -39,7 +40,11 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
   daysToGenerate = 1826;
   breakpoint = 5;
 
-  constructor(private songsService: SongsService, private logger: NGXLogger) {
+  constructor(
+    private songsService: SongsService,
+    private logger: NGXLogger,
+    private cookieService: CookieService
+  ) {
     this.logger.trace('in WhoIsUpComponent constructor');
     this.siteHelper = new SiteHelper(songsService, logger);
     this.todayAsString = this.siteHelper.getFormattedDateString(this.today);
@@ -95,7 +100,10 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.logger.trace('in ngAfterViewInit');
-    this.logger.trace('current song link: ', document.getElementById('songLink'));
+    this.logger.trace(
+      'current song link: ',
+      document.getElementById('songLink')
+    );
   }
 
   setActiveSong(date: string) {
@@ -179,12 +187,8 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
   }
 
   onEdittingSongSave(e) {
-    const newSong = (document.getElementById('newSong') as HTMLInputElement);
-    this.logger.trace(
-      'in song save: ',
-      newSong.value,
-      this.activeSong
-    );
+    const newSong = document.getElementById('newSong') as HTMLInputElement;
+    this.logger.trace('in song save: ', newSong.value, this.activeSong);
     this.edittingSong = false;
 
     const newData = JSON.parse(JSON.stringify(this.activeSong));
@@ -212,22 +216,62 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
 
   onThumbsUp(event) {
     this.logger.trace('In Thumbs Up Event ', event);
+    const cookieString = this.activeSong.id + '_' + 'UpVoted';
 
-    const newData = JSON.parse(JSON.stringify(this.activeSong));
-    newData.thumbsUp = +newData.thumbsUp + 1;
+    if (
+      this.cookieService.get(cookieString) === '0' ||
+      this.cookieService.get(cookieString) === ''
+    ) {
+      this.logger.debug('Toggle Vote Up - Up');
 
-    this.siteHelper.updateSongAtDate(newData);
-    this.activeSong = newData;
+      const newData = JSON.parse(JSON.stringify(this.activeSong));
+      newData.thumbsUp = +newData.thumbsUp + 1;
+
+      this.siteHelper.updateSongAtDate(newData);
+      this.activeSong = newData;
+
+      this.cookieService.set(cookieString, '1');
+    } else {
+      this.logger.debug('Toggle Vote Up - Down');
+
+      this.cookieService.set(cookieString, '0');
+
+      const newData = JSON.parse(JSON.stringify(this.activeSong));
+      newData.thumbsUp = +newData.thumbsUp - 1;
+
+      this.siteHelper.updateSongAtDate(newData);
+      this.activeSong = newData;
+    }
   }
 
   onThumbsDown(event) {
     this.logger.trace('In Thumbs Down Event ', event);
+    const cookieString = this.activeSong.id + '_' + 'DownVoted';
 
-    const newData = JSON.parse(JSON.stringify(this.activeSong));
-    newData.thumbsDowm = +newData.thumbsDowm + 1;
+    if (
+      this.cookieService.get(cookieString) === '0' ||
+      this.cookieService.get(cookieString) === ''
+    ) {
+      this.logger.debug('Toggle Vote Down - Up');
 
-    this.siteHelper.updateSongAtDate(newData);
-    this.activeSong = newData;
+      const newData = JSON.parse(JSON.stringify(this.activeSong));
+      newData.thumbsDowm = +newData.thumbsDowm + 1;
+
+      this.siteHelper.updateSongAtDate(newData);
+      this.activeSong = newData;
+
+      this.cookieService.set(cookieString, '1');
+    } else {
+      this.logger.debug('Toggle Vote Down - Down');
+
+      this.cookieService.set(cookieString, '0');
+
+      const newData = JSON.parse(JSON.stringify(this.activeSong));
+      newData.thumbsDowm = +newData.thumbsDowm - 1;
+
+      this.siteHelper.updateSongAtDate(newData);
+      this.activeSong = newData;
+    }
   }
 
   onResetVotes(event) {
