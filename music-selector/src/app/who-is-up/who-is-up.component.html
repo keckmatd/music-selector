@@ -75,7 +75,7 @@
         <mat-divider></mat-divider>
         <div class="rating-content">
           <mat-card-actions>
-            (Live - Don't Abuse!)
+            (Live - Click again take back vote!)
             <button mat-button (click)="onThumbsUp($event)">
               <mat-icon class="rating-icon" color="accent" aria-hidden="false" aria-label="Example thumb_up icon" matBadge="{{activeSong.thumbsUp}}" matBadgePosition="before">thumb_up 
                 </mat-icon>
@@ -85,7 +85,7 @@
               </mat-icon>
             </button>
             <button mat-raised-button color="warn" (click)="onResetVotes($event)">
-              RESET
+              RESET - ALL
             </button>
           </mat-card-actions>
         </div>
