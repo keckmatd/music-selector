@@ -276,6 +276,11 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
 
   onResetVotes(event) {
     this.logger.trace('In reset ', event);
+    
+    let cookieString = this.activeSong.id + '_' + 'DownVoted';
+    this.cookieService.set(cookieString, '0');
+    cookieString = this.activeSong.id + '_' + 'UpVoted';
+    this.cookieService.set(cookieString, '0');
 
     const newData = JSON.parse(JSON.stringify(this.activeSong));
     newData.thumbsUp = 0; // reset
