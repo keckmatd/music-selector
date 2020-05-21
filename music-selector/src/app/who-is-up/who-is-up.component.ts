@@ -112,9 +112,9 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
     this.siteHelper.getSongAtDate(date).then((result) => {
       this.logger.debug(result);
       this.activeSong = result;
-      (document.getElementById(
-        'songLink'
-      ) as HTMLLinkElement).href = this.activeSong.song;
+      // (document.getElementById(
+      //   'songLink'
+      // ) as HTMLLinkElement).href = this.activeSong.song;
 
       this.activeSong.thumbsUp = this.siteHelper.isEmptyOrSpaces(
         this.activeSong.thumbsUp

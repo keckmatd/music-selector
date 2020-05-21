@@ -1,3 +1,123 @@
-<div class="content-container">
-  <div class="content">stats-for-nerds works!</div>
+<div fxLayout="column" class="content-container media-container" style="position: relative;"
+  fxLayoutAlign="space-around none">
+  <div fxFlex="33.3" class="stat-card-container">
+    <div fxLayout="column" class="full-width" fxflex="100" style="position: relative;">
+      <div fxFlex="25" class="header-card-container">
+        <mat-card>
+          <span class="header-spacer"></span>
+          <mat-icon color="accent" aria-hidden="false" aria-label="thumb_up icon" appearance="outline">thumb_up</mat-icon>
+          <mat-icon color="accent" aria-hidden="false" aria-label="thumb_up icon" appearance="outline">thumb_up</mat-icon>
+          <span class="header-spacer"></span>
+          {{thumbsUpAward.title}}
+          <span class="header-spacer"></span>
+          <mat-icon color="accent" aria-hidden="false" aria-label="thumb_up icon" appearance="outline">thumb_up</mat-icon>
+          <mat-icon color="accent" aria-hidden="false" aria-label="thumb_up icon" appearance="outline">thumb_up</mat-icon>
+          <span class="header-spacer"></span>
+        </mat-card>
+      </div>
+      <div fxFlex="75" class="award-card-container">
+        <div fxLayout="row" style="position: relative;">
+          <div fxFlex="33.3" *ngFor="let award of thumbsUpAward.songs">
+            <mat-card>
+              <mat-list>
+                <mat-list-item>
+                  {{award.person}}
+                </mat-list-item>
+                <mat-list-item>
+                  <a class="songLink" [href]="award.song" target="_blank">
+                    {{ award.song }} </a>
+                </mat-list-item>
+                <mat-list-item>
+                    <mat-icon class="rating-icon" color="accent" aria-hidden="false" aria-label="Example thumb_up icon" matBadge="{{award.thumbsUp}}" matBadgePosition="before">thumb_up 
+                      </mat-icon>
+                    <mat-icon class="rating-icon" color="warn" aria-hidden="false" aria-label="Example thumb_down icon" matBadge="{{award.thumbsDowm}}" matBadgePosition="before above">thumb_down 
+                    </mat-icon>
+                </mat-list-item>
+              </mat-list>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div fxFlex="33.3" class="stat-card-container">
+    <div fxLayout="column" class="full-width" style="position: relative;">
+      <div fxFlex="25" class="header-card-container">
+        <mat-card>
+          <span class="header-spacer"></span>
+          <mat-icon color="warn" aria-hidden="false" aria-label="thumb_down icon" appearance="outline">thumb_down</mat-icon>
+          <mat-icon color="warn" aria-hidden="false" aria-label="thumb_down icon" appearance="outline">thumb_down</mat-icon>
+          <span class="header-spacer"></span>
+          {{thumbsDownAward.title}}
+          <span class="header-spacer"></span>
+          <mat-icon color="warn" aria-hidden="false" aria-label="thumb_down icon" appearance="outline">thumb_down</mat-icon>
+          <mat-icon color="warn" aria-hidden="false" aria-label="thumb_down icon" appearance="outline">thumb_down</mat-icon>
+          <span class="header-spacer"></span>
+        </mat-card>
+      </div>
+      <div fxFlex="75" class="award-card-container">
+        <div fxLayout="row" style="position: relative;">
+          <div fxFlex="33.3" *ngFor="let award of thumbsDownAward.songs">
+            <mat-card>
+              <mat-list>
+                <mat-list-item>
+                  {{award.person}}
+                </mat-list-item>
+                <mat-list-item>
+                  <a class="songLink" [href]="award.song" target="_blank">
+                    {{ award.song }} </a>
+                </mat-list-item>
+                <mat-list-item>
+                    <mat-icon class="rating-icon" color="accent" aria-hidden="false" aria-label="Example thumb_up icon" matBadge="{{award.thumbsUp}}" matBadgePosition="before">thumb_up 
+                      </mat-icon>
+                    <mat-icon class="rating-icon" color="warn" aria-hidden="false" aria-label="Example thumb_down icon" matBadge="{{award.thumbsDowm}}" matBadgePosition="before above">thumb_down 
+                    </mat-icon>
+                </mat-list-item>
+              </mat-list>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div fxFlex="33.3" class="stat-card-container">
+    <div fxLayout="column" class="full-width" style="position: relative;">
+      <div fxFlex="25" class="header-card-container">
+        <mat-card>
+          <span class="header-spacer"></span>
+          <mat-icon color="accent" aria-hidden="false" aria-label="thumb_up icon" appearance="outline">thumb_up</mat-icon>
+          <mat-icon color="warn" aria-hidden="false" aria-label="thumb_down icon" appearance="outline">thumb_down</mat-icon>
+          <span class="header-spacer"></span>
+          {{controversyAward.title}}
+          <span class="header-spacer"></span>
+          <mat-icon color="warn" aria-hidden="false" aria-label="thumb_down icon" appearance="outline">thumb_down</mat-icon>
+          <mat-icon color="accent" aria-hidden="false" aria-label="thumb_up icon" appearance="outline">thumb_up</mat-icon>
+          <span class="header-spacer"></span>
+        </mat-card>
+      </div>
+      <div fxFlex="75" class="award-card-container">
+        <div fxLayout="row" style="position: relative;">
+          <div fxFlex="33.3" *ngFor="let award of controversyAward.songs">
+            <mat-card>
+              <mat-list>
+                <mat-list-item>
+                  {{award.person}}
+                </mat-list-item>
+                <mat-list-item>
+                  <a class="songLink" [href]="award.song" target="_blank">
+                    {{ award.song }} </a>
+                </mat-list-item>
+                <mat-list-item>
+                    <mat-icon class="rating-icon" color="accent" aria-hidden="false" aria-label="Example thumb_up icon" matBadge="{{award.thumbsUp}}" matBadgePosition="before">thumb_up 
+                      </mat-icon>
+                    <mat-icon class="rating-icon" color="warn" aria-hidden="false" aria-label="Example thumb_down icon" matBadge="{{award.thumbsDowm}}" matBadgePosition="before above">thumb_down 
+                    </mat-icon>
+                </mat-list-item>
+              </mat-list>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

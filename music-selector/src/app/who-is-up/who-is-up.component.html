@@ -45,7 +45,7 @@
             <mat-list-item> Who's Up: {{ activeSong.person }} </mat-list-item>
             <mat-list-item>
               Song Picked:&nbsp;
-              <a id="songLink" href="#" target="_blank">
+              <a class="songLink" [href]="activeSong.song" target="_blank">
                 {{ activeSong.song }} </a><button mat-button color="primary" (click)="onEditSong($event)">
                 <!-- <mat-icon class="rating-icon" aria-hidden="false" aria-label="Example edit icon"
                   style="display: inline-block;">edit</mat-icon> -->

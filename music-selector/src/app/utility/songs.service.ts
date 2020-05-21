@@ -18,6 +18,30 @@ export class SongsService {
     }
   }
 
+  async getAward(limit: number, orderBy: string[]) {
+
+    this.logger.debug('DB => get award: ', limit, orderBy);
+    let result = null;
+
+    let reference = this.firestore.collection(this.collection).ref.orderBy('thumbsUp', 'desc').limit(limit);
+    for (let idx = 1; idx < orderBy.length; ++idx) {
+      reference = reference.orderBy(orderBy[idx], 'desc').limit(limit);
+    }
+    await reference.get().then((doc) => {
+      this.logger.debug('Document:', doc);
+      if (doc.docs) {
+        this.logger.debug('Document data:', doc.docs);
+        result = doc.docs;
+      } else {
+        this.logger.warn('No document meet criteria', limit, orderBy);
+      }
+    }).catch((error) => {
+      this.logger.error('Error getting document:', error);
+    });
+
+    return result;
+  }
+
   createSongEntry(data) {
     this.logger.trace('DB => create song: ', data);
     return new Promise<any>((resolve, reject) => {
