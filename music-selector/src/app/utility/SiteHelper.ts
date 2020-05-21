@@ -37,6 +37,7 @@ export class SiteHelper {
 
     // hope you know what you're doing if you uncomment this
     // this.resetDB();
+    // this.fixDBIndex();
 
     logger.debug('current song list from DB', this.songList);
   }

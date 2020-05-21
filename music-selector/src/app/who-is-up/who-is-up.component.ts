@@ -225,7 +225,7 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
       this.logger.debug('Toggle Vote Up - Up');
 
       const newData = JSON.parse(JSON.stringify(this.activeSong));
-      newData.thumbsUp = +newData.thumbsUp + 1;
+      newData.thumbsUp = (+newData.thumbsUp + 1).toString();
 
       this.siteHelper.updateSongAtDate(newData);
       this.activeSong = newData;
@@ -237,7 +237,7 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
       this.cookieService.set(cookieString, '0');
 
       const newData = JSON.parse(JSON.stringify(this.activeSong));
-      newData.thumbsUp = +newData.thumbsUp - 1;
+      newData.thumbsUp = (+newData.thumbsUp - 1).toString();
 
       this.siteHelper.updateSongAtDate(newData);
       this.activeSong = newData;
@@ -255,7 +255,7 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
       this.logger.debug('Toggle Vote Down - Up');
 
       const newData = JSON.parse(JSON.stringify(this.activeSong));
-      newData.thumbsDowm = +newData.thumbsDowm + 1;
+      newData.thumbsDowm = (+newData.thumbsDowm + 1).toString();
 
       this.siteHelper.updateSongAtDate(newData);
       this.activeSong = newData;
@@ -267,7 +267,7 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
       this.cookieService.set(cookieString, '0');
 
       const newData = JSON.parse(JSON.stringify(this.activeSong));
-      newData.thumbsDowm = +newData.thumbsDowm - 1;
+      newData.thumbsDowm = (+newData.thumbsDowm - 1).toString();
 
       this.siteHelper.updateSongAtDate(newData);
       this.activeSong = newData;
@@ -283,8 +283,8 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
     this.cookieService.set(cookieString, '0');
 
     const newData = JSON.parse(JSON.stringify(this.activeSong));
-    newData.thumbsUp = 0; // reset
-    newData.thumbsDowm = 0; // reset
+    newData.thumbsUp = '0'; // reset
+    newData.thumbsDowm = '0'; // reset
     this.siteHelper.updateSongAtDate(newData);
     this.activeSong = newData;
   }

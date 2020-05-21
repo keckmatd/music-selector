@@ -15,7 +15,7 @@ import { Award } from '../award';
 export class StatsForNerdsComponent implements OnInit {
 
   thumbsUpAward = new Award('\"Most Up-Voted!\" - The Todd Liked it Award');
-  thumbsDownAward = new Award('\"Most Down-Voted!\" - \"Stop Picking Screaming Songs, Matt\" Award');
+  thumbsDownAward = new Award('\"Most Down-Voted!\" - \"Stop Picking Songs with Screaming, Matt\" Award');
   controversyAward = new Award('\"Most Controversial!\" - The Joe Daly Award');
 
   constructor(
@@ -28,27 +28,36 @@ export class StatsForNerdsComponent implements OnInit {
   ngOnInit(): void {
     this.songsService.getAward(3, ['thumbsUp']).then( result => {
       this.logger.debug('thumbs Up Award Data ', result);
-      this.thumbsUpAward.songs = [];
-      
-      if (result) {
-        this.thumbsUpAward.songs.push(result);
-      }
-    });
-    this.songsService.getAward(3, ['thumbsDown']).then( result => {
-      this.logger.debug('thumbs Down Award Data ', result);
-      this.thumbsDownAward.songs = [];
-      
-      if (result) {
-      this.thumbsDownAward.songs.push(result);
-      }
-    });
-    this.songsService.getAward(3, ['thumbsUp', 'thumbsDown']).then( result => {
-      this.logger.debug('Controversy Award Data ', result);
-      this.controversyAward.songs = [];
 
-      if (result) {
-        this.controversyAward.songs.push(result);
-      }
+      this.thumbsUpAward.songs = [];
+      result.forEach( entry => {
+        if (entry.thumbsUp !== '') {
+          this.thumbsUpAward.songs.push(entry);
+        }
+      });
+      this.logger.debug('thumbs Up Award Award Pushed: ', this.thumbsUpAward);
+    });
+    this.songsService.getAward(3, ['thumbsDowm']).then( result => {
+      this.logger.debug('thumbs Down Award Data ', result);
+
+      this.thumbsDownAward.songs = [];
+      result.forEach( entry => {
+        if (entry.thumbsDowm !== '') {
+          this.thumbsDownAward.songs.push(entry);
+        }
+      });
+      this.logger.debug('thumbs Down Award Award Pushed: ', this.thumbsDownAward);
+    });
+    this.songsService.getAward(3, ['thumbsUp', 'thumbsDowm']).then( result => {
+      this.logger.debug('Controversy Award Data ', result);
+
+      this.controversyAward.songs = [];
+      result.forEach( entry => {
+        if (entry.thumbsUp !== '' && entry.thumbsDowm !== '') {
+          this.controversyAward.songs.push(entry);
+        }
+      });
+      this.logger.debug('Controversy Award Award Pushed: ', this.controversyAward);
     });
   }
 

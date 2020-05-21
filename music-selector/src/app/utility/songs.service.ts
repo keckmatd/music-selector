@@ -18,12 +18,16 @@ export class SongsService {
     }
   }
 
-  async getAward(limit: number, orderBy: string[]) {
+  dateToIndex(date: string) {
+    return date.split('/').join('_');
+  }
+
+  async getAward(limit: number, orderBy: string[]): Promise<Song[]> {
 
     this.logger.debug('DB => get award: ', limit, orderBy);
-    let result = null;
+    const result = [];
 
-    let reference = this.firestore.collection(this.collection).ref.orderBy('thumbsUp', 'desc').limit(limit);
+    let reference = this.firestore.collection(this.collection).ref.orderBy(orderBy[0], 'desc').limit(limit);
     for (let idx = 1; idx < orderBy.length; ++idx) {
       reference = reference.orderBy(orderBy[idx], 'desc').limit(limit);
     }
@@ -31,7 +35,10 @@ export class SongsService {
       this.logger.debug('Document:', doc);
       if (doc.docs) {
         this.logger.debug('Document data:', doc.docs);
-        result = doc.docs;
+        doc.forEach( entry => {
+          this.logger.debug('Document data (entry):', entry.data());
+          result.push(entry.data());
+        });
       } else {
         this.logger.warn('No document meet criteria', limit, orderBy);
       }
@@ -47,7 +54,7 @@ export class SongsService {
     return new Promise<any>((resolve, reject) => {
       this.firestore
         .collection(this.collection)
-        .doc(data.id)
+        .doc(this.dateToIndex(data.id))
         .set(data)
         .then(
           (res) => {
@@ -61,7 +68,7 @@ export class SongsService {
 
   async updateSongEntry(data) {
     this.logger.trace('DB => update song: ', data);
-    await this.firestore.collection(this.collection).doc(data.id)
+    await this.firestore.collection(this.collection).doc(this.dateToIndex(data.id))
       .set(data, { merge: true })
       .then(
         (res) => {
@@ -80,7 +87,7 @@ export class SongsService {
   async getSongAtDate(date: string) {
     this.logger.trace('DB => get song on date: ', date);
     let result = null;
-    await this.firestore.collection(this.collection).doc(date).ref.get().then((doc) => {
+    await this.firestore.collection(this.collection).doc(this.dateToIndex(date)).ref.get().then((doc) => {
       if (doc.exists) {
         this.logger.debug('Document data:', doc.data());
         result = doc.data();
@@ -101,7 +108,7 @@ export class SongsService {
   deleteSongEntry(data) {
     return this.firestore
       .collection(this.collection)
-      .doc(data.id)
+      .doc(this.dateToIndex(data.id))
       .delete()
       .then(
         (res) => {
