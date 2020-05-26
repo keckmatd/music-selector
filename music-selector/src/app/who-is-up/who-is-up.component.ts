@@ -65,7 +65,7 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
     }
 
     // - get offset from start of time
-    this.logger.debug(this.list);
+    this.logger.trace(this.list);
     const start = new Date(this.list[0].title);
     const end = new Date(this.siteHelper.getFormattedDateString(this.today));
     this.logger.trace('after date pulls');
@@ -77,7 +77,9 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
     const diffInDays = diffInTime / (1000 * 3600 * 24);
 
     // To display the final no. of days (result)
-    this.startIndex = Math.trunc(diffInDays / this.pageSize) - 1;
+    const block = (this.pageSize + (Math.trunc(this.pageSize / this.breakpoint) * 2));
+    this.startIndex = Math.max(Math.trunc(diffInDays / block), 0);
+    this.logger.debug('Initial starting paginator index: ', this.startIndex, ' diffInDays: ', diffInDays, ' block: ', block);
 
     // - set the pagination to the current date to start with
     this.onPageChange({ pageIndex: this.startIndex, pageSize: this.pageSize });
@@ -143,6 +145,7 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
 
   onPageChange(e) {
     this.logger.trace('changing page: ', e);
+    this.logger.debug('Set paginator => (index) ', e.pageIndex, ' (pageSize) ', e.pageSize);
     this.simpleSongList = this.list.slice(
       e.pageIndex * e.pageSize,
       (e.pageIndex + 1) * e.pageSize

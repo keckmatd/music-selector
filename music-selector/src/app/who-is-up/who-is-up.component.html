@@ -8,7 +8,7 @@
             </mat-icon>
           </div>
 
-          <mat-card-title>{{ activeSong.id.split('_').join('/') }}</mat-card-title>
+          <mat-card-title>{{ activeSong.id ? activeSong.id.split('_').join('/') : '' }}</mat-card-title>
           <mat-card-subtitle>
             <mat-list-item>
               Genre: {{ activeSong.genre }}

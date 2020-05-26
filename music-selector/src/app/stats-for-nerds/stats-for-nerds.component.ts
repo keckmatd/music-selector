@@ -22,38 +22,39 @@ export class StatsForNerdsComponent implements OnInit {
     private songsService: SongsService,
     private logger: NGXLogger,
     private cookieService: CookieService) {
-      logger.trace('constructor Stats for Nerds');
+    logger.trace('constructor Stats for Nerds');
   }
 
   ngOnInit(): void {
-    this.songsService.getAward(3, ['thumbsUp']).then( result => {
+    this.songsService.getAward(3, ['thumbsUp']).then(result => {
       this.logger.debug('thumbs Up Award Data ', result);
 
       this.thumbsUpAward.songs = [];
-      result.forEach( entry => {
-        if (entry.thumbsUp !== '') {
+      result.forEach(entry => {
+        if (entry.thumbsUp !== '' && entry.thumbsUp !== '0') {
           this.thumbsUpAward.songs.push(entry);
         }
       });
       this.logger.debug('thumbs Up Award Award Pushed: ', this.thumbsUpAward);
     });
-    this.songsService.getAward(3, ['thumbsDowm']).then( result => {
+    this.songsService.getAward(3, ['thumbsDowm']).then(result => {
       this.logger.debug('thumbs Down Award Data ', result);
 
       this.thumbsDownAward.songs = [];
-      result.forEach( entry => {
-        if (entry.thumbsDowm !== '') {
+      result.forEach(entry => {
+        if (entry.thumbsDowm !== '' && entry.thumbsDowm !== '0') {
           this.thumbsDownAward.songs.push(entry);
         }
       });
       this.logger.debug('thumbs Down Award Award Pushed: ', this.thumbsDownAward);
     });
-    this.songsService.getAward(3, ['thumbsUp', 'thumbsDowm']).then( result => {
+    this.songsService.getAward(3, ['thumbsUp', 'thumbsDowm']).then(result => {
       this.logger.debug('Controversy Award Data ', result);
 
       this.controversyAward.songs = [];
-      result.forEach( entry => {
-        if (entry.thumbsUp !== '' && entry.thumbsDowm !== '') {
+      result.forEach(entry => {
+        if (entry.thumbsUp !== '' && entry.thumbsDowm !== '' &&
+          entry.thumbsUp !== '0' && entry.thumbsDowm !== '0') {
           this.controversyAward.songs.push(entry);
         }
       });
