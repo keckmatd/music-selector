@@ -114,7 +114,6 @@ export class SiteHelper {
     this.logger.debug('dateIterator.getDate(): ', dateIterator.getDate(),
     'endIterator.getDate(): ', endIterator.getDate());
     while (this.getFormattedDateString(dateIterator) !== this.getFormattedDateString(endIterator)) {
-      // try {
       const result = await this.getSongAtDate(this.getFormattedDateString(dateIterator));
 
       this.logger.debug(result);
@@ -146,9 +145,6 @@ export class SiteHelper {
 
       iterator++;
       iterator %= nameSize;
-      // } catch (error) {
-      //   this.logger.error(error);
-      // } finally {
 
       dateIterator.setDate(dateIterator.getDate() + 1);
       while (
@@ -165,7 +161,6 @@ export class SiteHelper {
           this.availableNames[iterator]
         );
       }
-      // }
     }
   }
 
