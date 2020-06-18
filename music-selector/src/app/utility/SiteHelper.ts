@@ -18,6 +18,16 @@ export class SiteHelper {
   private service: SongsService;
   private localDb: Song[];
 
+  private availableNames = [
+    'Payne',
+    'Todd',
+    'Allipuram',
+    'Daly',
+    'Keck',
+    'Zielinski',
+    'Parvaresh',
+  ];
+
   songList;
 
   // getSongEntries = () =>
@@ -39,11 +49,14 @@ export class SiteHelper {
     // this.resetDB();
     // this.fixDBIndex();
 
+    // add a new user (uncomment if you want to do it)
+    // this.addNewUser('6/22/2020', '10/28/2020');
+
     logger.debug('current song list from DB', this.songList);
   }
 
   isEmptyOrSpaces(str) {
-    return (!str || /^\s*$/.test(str));
+    return !str || /^\s*$/.test(str);
   }
 
   LoadJSON(url: string): Song[] {
@@ -91,6 +104,73 @@ export class SiteHelper {
     return returnVal;
   }
 
+  async addNewUser(startDate: string, endDate: string) {
+    let dateIterator = new Date(startDate);
+    const endIterator = new Date(endDate);
+    const nameSize = this.availableNames.length;
+    let iterator = 0;
+    let selected = new Song();
+    this.logger.warn('endIterator: ', endIterator);
+    this.logger.warn('dateIterator.getDate(): ', dateIterator.getDate(),
+    'endIterator.getDate(): ', endIterator.getDate());
+    while (this.getFormattedDateString(dateIterator) !== this.getFormattedDateString(endIterator)) {
+      // try {
+      const result = await this.getSongAtDate(this.getFormattedDateString(dateIterator));
+
+      this.logger.debug(result);
+      selected = result as Song;
+
+      selected.person = this.availableNames[iterator];
+      selected.id = this.getFormattedDateString(dateIterator);
+
+      if (environment.useLocalDB) {
+        const updateItem = this.localDb.find((item) => item.id === selected.id);
+        const index = this.localDb.indexOf(updateItem);
+
+        // this.logger.debug('Name update: ', selected.person);
+        this.localDb[index] = selected;
+      } else {
+        await this.songsService.updateSongEntry(selected).then((value) => {
+          // this.logger.debug('Name update: ', value);
+        });
+      }
+
+      this.logger.warn(
+        'On Date: ',
+        dateIterator,
+        ' day of the week: ',
+        new Date(dateIterator).getDay(),
+        ' name: ',
+        this.availableNames[iterator]
+      );
+
+      iterator++;
+      iterator %= nameSize;
+      // } catch (error) {
+      //   this.logger.error(error);
+      // } finally {
+
+      dateIterator.setDate(dateIterator.getDate() + 1);
+      while (
+        new Date(dateIterator).getDay() === 0 ||
+        new Date(dateIterator).getDay() >= 6
+      ) {
+        dateIterator.setDate(dateIterator.getDate() + 1);
+        this.logger.warn(
+          'Next Date: ',
+          dateIterator,
+          ' date: ',
+          new Date(dateIterator),
+          ' name: ',
+          this.availableNames[iterator]
+        );
+      }
+      // }
+    }
+  }
+
+  deleteUser(startDate: string, name: string) { }
+
   updateSongAtDate(song: Song) {
     this.logger.trace('updating song: ', song);
     if (environment.useLocalDB) {
@@ -109,6 +189,13 @@ export class SiteHelper {
 
   getFormattedDateString(date: Date): string {
     return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+  }
+
+  getNextMonday(date: string): string {
+    const d = new Date();
+    d.setDate(d.getDate() + ((((7 - d.getDay()) % 7) + 1) % 7));
+
+    return this.getFormattedDateString(d);
   }
 
   getNearestMonday(date: string): string {
