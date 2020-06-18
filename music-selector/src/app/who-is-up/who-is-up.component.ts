@@ -1,10 +1,12 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { SongsService } from '../utility/songs.service';
 import { SiteHelper } from '../utility/SiteHelper';
 
 import { Song } from '../song.model';
 import { NGXLogger } from 'ngx-logger';
 import { CookieService } from 'ngx-cookie-service';
+
+import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-who-is-up',
@@ -25,6 +27,8 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
   list = [];
   pageSize = 25;
   simpleSongList = [];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   startIndex = 0;
   todayAsString: string;
 
@@ -106,6 +110,7 @@ export class WhoIsUpComponent implements OnInit, AfterViewInit {
       'current song link: ',
       document.getElementById('songLink')
     );
+    this.paginator.pageIndex = this.startIndex;
   }
 
   setActiveSong(date: string) {

@@ -120,7 +120,7 @@
           </mat-grid-tile>
           <mat-grid-tile [colspan]="5">
             <mat-paginator [length]="list.length" [pageSize]="pageSize" [hidePageSize]="true"
-              (page)="onPageChange($event)">
+              (page)="onPageChange($event)" #paginator>
             </mat-paginator>
           </mat-grid-tile>
         </ng-container>
