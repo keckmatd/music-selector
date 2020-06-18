@@ -105,13 +105,13 @@ export class SiteHelper {
   }
 
   async addNewUser(startDate: string, endDate: string) {
-    let dateIterator = new Date(startDate);
+    const dateIterator = new Date(startDate);
     const endIterator = new Date(endDate);
     const nameSize = this.availableNames.length;
     let iterator = 0;
     let selected = new Song();
-    this.logger.warn('endIterator: ', endIterator);
-    this.logger.warn('dateIterator.getDate(): ', dateIterator.getDate(),
+    this.logger.debug('endIterator: ', endIterator);
+    this.logger.debug('dateIterator.getDate(): ', dateIterator.getDate(),
     'endIterator.getDate(): ', endIterator.getDate());
     while (this.getFormattedDateString(dateIterator) !== this.getFormattedDateString(endIterator)) {
       // try {
@@ -135,7 +135,7 @@ export class SiteHelper {
         });
       }
 
-      this.logger.warn(
+      this.logger.debug(
         'On Date: ',
         dateIterator,
         ' day of the week: ',
@@ -156,7 +156,7 @@ export class SiteHelper {
         new Date(dateIterator).getDay() >= 6
       ) {
         dateIterator.setDate(dateIterator.getDate() + 1);
-        this.logger.warn(
+        this.logger.debug(
           'Next Date: ',
           dateIterator,
           ' date: ',
