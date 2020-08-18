@@ -19,13 +19,17 @@ export class SiteHelper {
   private localDb: Song[];
 
   private availableNames = [
-    'Payne',
-    'Todd',
-    'Allipuram',
-    'Daly',
     'Keck',
     'Zielinski',
     'Parvaresh',
+    'Payne',
+    'Kalavala',
+    'Todd',
+    'Allipuram',
+    'Tressler',
+    'Chopra',
+    'Adabala',
+    'Daly',
   ];
 
   songList;
@@ -50,7 +54,7 @@ export class SiteHelper {
     // this.fixDBIndex();
 
     // add a new user (uncomment if you want to do it)
-    // this.addNewUser('6/22/2020', '10/28/2020');
+    // this.redoUsersBetweenDates('8/18/2020', '1/20/2023');
 
     logger.debug('current song list from DB', this.songList);
   }
@@ -104,7 +108,7 @@ export class SiteHelper {
     return returnVal;
   }
 
-  async addNewUser(startDate: string, endDate: string) {
+  async redoUsersBetweenDates(startDate: string, endDate: string) {
     const dateIterator = new Date(startDate);
     const endIterator = new Date(endDate);
     const nameSize = this.availableNames.length;
@@ -163,8 +167,6 @@ export class SiteHelper {
       }
     }
   }
-
-  deleteUser(startDate: string, name: string) { }
 
   updateSongAtDate(song: Song) {
     this.logger.trace('updating song: ', song);
