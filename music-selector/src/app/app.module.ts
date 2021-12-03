@@ -18,7 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
@@ -41,8 +41,8 @@ import { WhoIsUpComponent } from './who-is-up/who-is-up.component';
 import { PastPicksComponent } from './past-picks/past-picks.component';
 import { StatsForNerdsComponent } from './stats-for-nerds/stats-for-nerds.component';
 
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
 import { environment } from '../environments/environment';
 
@@ -80,6 +80,7 @@ import { CookieService } from 'ngx-cookie-service';
     MatListModule,
     MatMenuModule,
     MatNativeDateModule,
+    MatPaginator,
     MatPaginatorModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
@@ -96,9 +97,8 @@ import { CookieService } from 'ngx-cookie-service';
     MatTooltipModule,
     FormsModule,
     HttpClientModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireDatabaseModule,
-    FlexLayoutModule,
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideFirestore(() => getFirestore()),
     ReactiveFormsModule,
     MatFormFieldModule,
     LoggerModule.forRoot({ level: environment.logLevel }),

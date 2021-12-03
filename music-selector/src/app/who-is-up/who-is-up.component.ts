@@ -6,7 +6,7 @@ import { Song } from '../song.model';
 import { NGXLogger } from 'ngx-logger';
 import { CookieService } from 'ngx-cookie-service';
 
-import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-who-is-up',

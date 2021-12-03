@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { Firestore, collectionData, collection } from '@angular/fire/firestore';
 import { NGXLogger } from 'ngx-logger';
 
 @Component({
@@ -10,8 +10,8 @@ import { NGXLogger } from 'ngx-logger';
 export class AppComponent {
   title = 'music-selector';
 
-  constructor(private firestore: AngularFirestore, private logger: NGXLogger) {
+  constructor(private firestore: Firestore, private logger: NGXLogger) {
     logger.debug('configuring firestore');
-    firestore.firestore.settings({ experimentalForceLongPolling: true });
+    // firestore.app.options.({ experimentalForceLongPolling: true });
   }
 }
