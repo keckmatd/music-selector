@@ -15,7 +15,7 @@ export const environment = {
     appId: '1:880706785517:web:72dc91ec3e8f24d6a8bce4',
     measurementId: 'G-K788C4HVZY'
   },
-  useLocalDB: false,
+  useLocalDB: true,
   useTestDB: true,
   logLevel: NgxLoggerLevel.DEBUG
 };

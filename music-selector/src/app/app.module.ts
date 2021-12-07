@@ -18,7 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
@@ -45,6 +45,7 @@ import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
 import { environment } from '../environments/environment';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { HttpClientModule } from '@angular/common/http';
@@ -80,7 +81,6 @@ import { CookieService } from 'ngx-cookie-service';
     MatListModule,
     MatMenuModule,
     MatNativeDateModule,
-    MatPaginator,
     MatPaginatorModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
@@ -97,6 +97,7 @@ import { CookieService } from 'ngx-cookie-service';
     MatTooltipModule,
     FormsModule,
     HttpClientModule,
+    FlexLayoutModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore()),
     ReactiveFormsModule,
