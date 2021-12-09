@@ -41,8 +41,8 @@ import { WhoIsUpComponent } from './who-is-up/who-is-up.component';
 import { PastPicksComponent } from './past-picks/past-picks.component';
 import { StatsForNerdsComponent } from './stats-for-nerds/stats-for-nerds.component';
 
-import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+//import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
+//import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
 import { environment } from '../environments/environment';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -98,8 +98,8 @@ import { CookieService } from 'ngx-cookie-service';
     FormsModule,
     HttpClientModule,
     FlexLayoutModule,
-    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    provideFirestore(() => getFirestore()),
+    //provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    //provideFirestore(() => getFirestore()),
     ReactiveFormsModule,
     MatFormFieldModule,
     LoggerModule.forRoot({ level: environment.logLevel }),

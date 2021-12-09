@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collectionData, collection } from '@angular/fire/firestore';
+//import { Firestore, collectionData, collection } from '@angular/fire/firestore';
 import { Song } from '../song.model';
 import { environment } from '../../environments/environment';
 import { NGXLogger } from 'ngx-logger';
@@ -9,11 +9,11 @@ import { NGXLogger } from 'ngx-logger';
 })
 export class SongsService {
   private collection;
-  constructor(private firestore: Firestore, private logger: NGXLogger) {
+  constructor(/*private firestore: Firestore,*/ private logger: NGXLogger) {
     if (environment.useTestDB) {
-      this.collection = collection(firestore, 'songsTest');
+      // this.collection = collection(firestore, 'songsTest');
     } else {
-      this.collection = collection(firestore, 'songs');
+      // this.collection = collection(firestore, 'songs');
     }
   }
 

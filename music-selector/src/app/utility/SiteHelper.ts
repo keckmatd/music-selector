@@ -1,7 +1,7 @@
 /* generate new JSON interfaces if you update site-links.json at => http://json2ts.com/ */
 import * as linkifyHtml from 'linkifyjs/html';
 
-import { Firestore, collectionData, collection } from '@angular/fire/firestore';
+//import { Firestore, collectionData, collection } from '@angular/fire/firestore';
 
 import { SongsService } from '../utility/songs.service';
 import { Song } from '../song.model';
